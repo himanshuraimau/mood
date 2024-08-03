@@ -1,11 +1,25 @@
+"use client";
+import { createNewEntry } from "@/utils/api";
+import { useRouter } from "next/navigation";
+
 const NewEntryCard = () => {
-    return (
-        <div
-          className="cursor-pointer overflow-hidden rounded-lg bg-white shadow">
-          <div className="px-4 py-5 sm:p-6">
-            <span className="text-3xl border border-2 border-black">New Entry</span>
-          </div>
-        </div>
-      )
-}
+  const router = useRouter(); 
+  
+  const handleClick = async () => {
+    const data = await createNewEntry();
+    router.push(`/journal/${data.id}`);
+  };
+
+  return (
+    <div 
+      className="cursor-pointer overflow-hidden rounded-lg bg-white shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-xl"
+      onClick={handleClick}
+    >
+      <div className="px-4 py-5 sm:p-6 " onClick={handleClick}>
+        <span className="text-3xl font-semibold text-gray-900">New Entry</span>
+      </div>
+    </div>
+  );
+};
+
 export default NewEntryCard;
