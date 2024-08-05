@@ -15,7 +15,13 @@ const getEntries = async () => {
       createdAt: 'desc'
     }
   });
- // await analyze("Generate a python factorial function on dp and haskell");
+  await analyze(`I am going to give you a journal entry, I want you to do few things. I need the mood,summary and what the subject is and a color represting the mood. Your need to respond
+    back with formatted json like so :{
+    "mood":"","subject":"","color":"","negative":""}
+    entry: Today was really a great day i woke up at 4am then ge back to study
+    my ee paper as it was in the morning i was able to concentrate more and i was able to solve the problems
+    very easily then i came back home and sleep peacefully.
+    `);
   return entries;
 };
 
