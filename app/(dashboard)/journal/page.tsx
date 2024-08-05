@@ -15,7 +15,10 @@ const getEntries = async () => {
       createdAt: 'desc'
     }
   });
-  await analyze("hello");
+  await analyze(`Today was really a great day i woke up at 4am then ge back to study
+    my ee paper as it was in the morning i was able to concentrate more and i was able to solve the problems
+    very easily then i came back home and sleep peacefully.
+    `);
   return entries;
 };
 

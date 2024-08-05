@@ -7,6 +7,7 @@ const parser = StructuredOutputParser.fromZodSchema(
     z.object({
         mood: z.string().describe('The mood of the person who wrote the journal entry.'),
         summary: z.string().describe('A quick summary of the journal entry.'),
+        subject: z.string().describe('the subject of the journal entry.'),
         negative:z.boolean().describe('is the journal entry is negative(does it contain negative emotions.?)?') ,
         color: z
         .string()
