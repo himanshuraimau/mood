@@ -3,6 +3,7 @@ import { getUserByClerkId } from "@/utils/auth";
 import NewEntryCard from "@/componenets/NewEntryCard";
 import EntryCard from "@/componenets/EntryCard";
 import Link from "next/link";
+import { analyze } from "@/utils/ai";
 
 const getEntries = async () => {
   const user = await getUserByClerkId();
@@ -14,6 +15,7 @@ const getEntries = async () => {
       createdAt: 'desc'
     }
   });
+ // await analyze("Generate a python factorial function on dp and haskell");
   return entries;
 };
 
