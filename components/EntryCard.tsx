@@ -1,4 +1,4 @@
-const EntryCard = ({ entry }) => {
+const EntryCard = ({ entry }:{entry:any}) => {
   const date = new Date(entry.createdAt).toDateString();
   
   return (
