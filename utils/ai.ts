@@ -47,7 +47,10 @@ export const analyze = async (content: string) => {
 
   // Extract the generated text from the nested array
   const generatedText = result.generations.flat(2).map((item: any) => item.text).join('\n');
-
-  console.log(generatedText);
-  return generatedText;
+  try{
+    return generatedText;
+  }catch(e){
+    console.log(e);
+  }
+  
   };

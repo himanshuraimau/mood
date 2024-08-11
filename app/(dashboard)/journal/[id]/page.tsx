@@ -1,4 +1,4 @@
-import Editor from "@/componenets/Editor";
+import Editor from "@/components/Editor";
 import { getUserByClerkId } from "@/utils/auth";
 import { prisma } from "@/utils/db";
 
