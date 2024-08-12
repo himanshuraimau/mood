@@ -3,7 +3,6 @@ import { getUserByClerkId } from "@/utils/auth";
 import NewEntryCard from "@/components/NewEntryCard"; // Corrected path
 import EntryCard from "@/components/EntryCard"; // Corrected path
 import Link from "next/link";
-import { analyze } from "@/utils/ai";
 
 const getEntries = async () => {
   try {
