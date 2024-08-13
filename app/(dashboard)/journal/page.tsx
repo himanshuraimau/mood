@@ -3,6 +3,7 @@ import { getUserByClerkId } from "@/utils/auth";
 import NewEntryCard from "@/components/NewEntryCard"; // Corrected path
 import EntryCard from "@/components/EntryCard"; // Corrected path
 import Link from "next/link";
+import Question from "@/components/Question";
 
 const getEntries = async () => {
   try {
@@ -27,6 +28,9 @@ const JournalPage = async () => {
   return (
     <div className="p-10 bg-zinc-200/50 min-h-screen">
       <h2 className="text-4xl font-bold mb-8 text-indigo-700">Journal</h2>
+      <div className="my-8">
+        <Question/>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <NewEntryCard />
         {entries.map((entry) => (
