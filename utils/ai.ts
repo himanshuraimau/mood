@@ -6,7 +6,8 @@ import { metadata } from "@/app/layout";
 import { loadQAChain} from 'langchain/chains'
 import { Document } from "langchain/document";
 import { OpenAIEmbeddings } from "@langchain/openai";
-
+import { MemoryVectorStore } from "langchain/vectorstores/memory";
+import { loadQARefineChain } from "langchain/chains";
   
   
 
@@ -64,22 +65,30 @@ export const analyze = async (content: string) => {
 };
 
 
-const qa = async (question,entries)=>{
-       const docs = entries.map((entry) =>
-               {
-                pageContent: entry.content,
-                metadata:{id:entry.id,
-                    createdAt:entry.createdAt,
-                }
-               }    
-    
-    );
+const qa = async (question, entries) => {
+    const docs = entries.map((entry) => ({
+        pageContent: entry.content,
+        metadata: {
+            id: entry.id,
+            createdAt: entry.createdAt,
+        },
+    }));
 
     const model = new ChatOpenAI({
         temperature: 0,
         modelName: 'gpt-3.5-turbo',
-        apiKey: process.env.OPENAI_API_KEY
+        apiKey: process.env.OPENAI_API_KEY,
     });
-    const chain = 
 
-}
+    const chain = loadQARefineChain(model);
+    const embeddings = new OpenAIEmbeddings();
+    const store = await MemoryVectorStore.fromDocuments(docs, embeddings);
+    const relevantDocs = await store.similaritySearch(question);
+
+    const res = await chain.invoke({
+        input_documents: relevantDocs,
+        question,
+    });
+
+    return res;
+};
