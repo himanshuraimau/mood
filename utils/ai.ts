@@ -5,6 +5,10 @@ import { PromptTemplate } from "@langchain/core/prompts";
 import { metadata } from "@/app/layout";
 import { loadQAChain} from 'langchain/chains'
 import { Document } from "langchain/document";
+import { OpenAIEmbeddings } from "@langchain/openai";
+
+  
+  
 
 const parser = StructuredOutputParser.fromZodSchema(
     z.object({
