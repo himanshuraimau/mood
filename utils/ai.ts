@@ -2,15 +2,12 @@ import { ChatOpenAI } from "@langchain/openai";
 import * as z from "zod";
 import { StructuredOutputParser } from "langchain/output_parsers";
 import { PromptTemplate } from "@langchain/core/prompts";
-import { metadata } from "@/app/layout";
-import { loadQAChain} from 'langchain/chains'
-import { Document } from "langchain/document";
+import { loadQARefineChain } from "langchain/chains";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
-import { loadQARefineChain } from "langchain/chains";
-  
-  
+import { Document } from "langchain/document";
 
+// Define the parser with a Zod schema
 const parser = StructuredOutputParser.fromZodSchema(
     z.object({
         mood: z.string().describe('The mood of the person who wrote the journal entry.'),
@@ -18,12 +15,13 @@ const parser = StructuredOutputParser.fromZodSchema(
         subject: z.string().describe('The subject of the journal entry.'),
         negative: z.boolean().describe('Does the journal entry contain negative emotions?'),
         color: z.string().describe(
-          'A hexadecimal color code that represents the mood of the entry. Example #0101fe for blue representing happiness.'
+            'A hexadecimal color code that represents the mood of the entry. Example #0101fe for blue representing happiness.'
         ),
     })
 );
 
-const getPrompt = async (content: string) => {
+// Function to generate the prompt input
+const getPrompt = async (content: string): Promise<string> => {
     const format_instructions = parser.getFormatInstructions();
 
     const prompt = new PromptTemplate({
@@ -40,6 +38,7 @@ const getPrompt = async (content: string) => {
     return input;
 };
 
+// Function to analyze the journal entry
 export const analyze = async (content: string) => {   
     const input = await getPrompt(content);
     const model = new ChatOpenAI({
@@ -60,12 +59,15 @@ export const analyze = async (content: string) => {
         return parsedResult;
     } catch (e) {
         console.error("Error parsing the generated text:", e);
-        throw e; // Re-throw the error to handle it elsewhere if needed
+        throw e; 
     }
 };
 
 
-const qa = async (question, entries) => {
+export const qa = async (
+    question: string, 
+    entries: Array<{ content: string, id: string, createdAt: Date }>
+): Promise<any> => {
     const docs = entries.map((entry) => ({
         pageContent: entry.content,
         metadata: {
