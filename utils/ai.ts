@@ -2,6 +2,9 @@ import { ChatOpenAI } from "@langchain/openai";
 import * as z from "zod";
 import { StructuredOutputParser } from "langchain/output_parsers";
 import { PromptTemplate } from "@langchain/core/prompts";
+import { metadata } from "@/app/layout";
+import { loadQAChain} from 'langchain/chains'
+import { Document } from "langchain/document";
 
 const parser = StructuredOutputParser.fromZodSchema(
     z.object({
@@ -55,3 +58,24 @@ export const analyze = async (content: string) => {
         throw e; // Re-throw the error to handle it elsewhere if needed
     }
 };
+
+
+const qa = async (question,entries)=>{
+       const docs = entries.map((entry) =>
+               {
+                pageContent: entry.content,
+                metadata:{id:entry.id,
+                    createdAt:entry.createdAt,
+                }
+               }    
+    
+    );
+
+    const model = new ChatOpenAI({
+        temperature: 0,
+        modelName: 'gpt-3.5-turbo',
+        apiKey: process.env.OPENAI_API_KEY
+    });
+    const chain = 
+
+}
