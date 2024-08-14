@@ -32,7 +32,7 @@ export const POST = async () => {
         subject: analysis.subject || "",
         negative: analysis.negative || false,
         color: analysis.color || "#000000", 
-        sentimentScore: String(analysis.sentimentScore || "0"),
+        sentimentScore: analysis.sentimentScore,
       },
     });
   } catch (error) {

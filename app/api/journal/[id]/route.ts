@@ -40,13 +40,13 @@ export const PATCH = async (request: Request, { params }: { params: any }) => {
         entryId: updatedEntry.id,
       },
       update: {
-        
+
         mood: analysisData.mood || "",
         summary: analysisData.summary || "",
         subject: analysisData.subject || "",
         negative: analysisData.negative || false,
         color: analysisData.color || "#000000",
-        sentimentScore: String(analysisData.sentimentScore || "0"), 
+        sentimentScore: analysisData.sentimentScore ,
       },
       create: {
         userId: user.id,
@@ -56,7 +56,7 @@ export const PATCH = async (request: Request, { params }: { params: any }) => {
         subject: analysisData.subject || "",
         negative: analysisData.negative || false,
         color: analysisData.color || "#000000",
-        sentimentScore: String(analysisData.sentimentScore || "0"), // Add sentimentScore
+        sentimentScore: analysisData.sentimentScore,
       },
       include: {
         entry: true, // Include related journal entry data if needed
