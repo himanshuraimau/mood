@@ -8,6 +8,10 @@ export const PATCH = async (request: Request, { params }: { params: any }) => {
     const { content } = await request.json();
     const user = await getUserByClerkId();
 
+    if (!user) {
+      return NextResponse.json({ error: "User not found." }, { status: 404 });
+    }
+
     // Update the journal entry with the new content
     const updatedEntry = await prisma.journalEntry.update({
       where: {
@@ -22,7 +26,6 @@ export const PATCH = async (request: Request, { params }: { params: any }) => {
     // Analyze the updated content
     const analysis = await analyze(updatedEntry.content);
 
-    // Handle potential issues with the analysis result
     let analysisData;
     try {
       analysisData = analysis;
@@ -37,19 +40,23 @@ export const PATCH = async (request: Request, { params }: { params: any }) => {
         entryId: updatedEntry.id,
       },
       update: {
+        
         mood: analysisData.mood || "",
         summary: analysisData.summary || "",
         subject: analysisData.subject || "",
         negative: analysisData.negative || false,
-        color: analysisData.color || "#000000", // Default to black if no color is provided
+        color: analysisData.color || "#000000",
+        sentimentScore: String(analysisData.sentimentScore || "0"), 
       },
       create: {
+        userId: user.id,
         entryId: updatedEntry.id,
         mood: analysisData.mood || "",
         summary: analysisData.summary || "",
         subject: analysisData.subject || "",
         negative: analysisData.negative || false,
         color: analysisData.color || "#000000",
+        sentimentScore: String(analysisData.sentimentScore || "0"), // Add sentimentScore
       },
       include: {
         entry: true, // Include related journal entry data if needed

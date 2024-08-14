@@ -25,12 +25,14 @@ export const POST = async () => {
 
     await prisma.analysis.create({
       data: {
+        userId: user.id,
         entryId: entry.id,
         mood: analysis.mood || "",
         summary: analysis.summary || "",
         subject: analysis.subject || "",
         negative: analysis.negative || false,
-        color: analysis.color || "#000000", // Default to black if no color is provided
+        color: analysis.color || "#000000", 
+        sentimentScore: String(analysis.sentimentScore || "0"),
       },
     });
   } catch (error) {
