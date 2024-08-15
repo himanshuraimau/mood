@@ -16,6 +16,9 @@ const getEntries = async () => {
         createdAt: 'desc',
       },
     });
+
+    // Ensure entries include the necessary properties
+    console.log("Fetched Entries:", entries); // Debug logging
     return entries;
   } catch (error) {
     console.error("Error fetching journal entries:", error);
@@ -25,6 +28,7 @@ const getEntries = async () => {
 
 const JournalPage = async () => {
   const entries = await getEntries();
+
   return (
     <div className="p-8 min-h-screen bg-gradient-to-r from-gray-50 via-blue-50 to-gray-200">
       <h2 className="text-4xl font-bold mb-8 text-indigo-800 text-center">Journal</h2>
@@ -36,9 +40,9 @@ const JournalPage = async () => {
         {entries.length > 0 ? (
           entries.map((entry) => (
             <Link href={`/journal/${entry.id}`} key={entry.id}>
-              
-                <EntryCard entry={entry} />
             
+                <EntryCard entry={entry} />
+              
             </Link>
           ))
         ) : (

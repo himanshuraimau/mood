@@ -62,7 +62,7 @@ const Editor: React.FC<EditorProps> = ({ entry }) => {
       <div className="col-span-2 bg-white rounded-lg shadow-lg overflow-hidden relative">
         {isLoaded && (
           <div className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-70 flex items-center justify-center z-10">
-            <div className="p-6 bg-blue-400 text-gray-900 rounded-lg shadow-lg">
+            <div className="p-2 bg-gray-800 opacity-30 text-white rounded-lg shadow-lg">
               <div className="text-xl font-semibold">Saving...</div>
             </div>
           </div>
