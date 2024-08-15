@@ -1,7 +1,7 @@
 import { prisma } from "@/utils/db";
 import { getUserByClerkId } from "@/utils/auth";
-import NewEntryCard from "@/components/NewEntryCard"; // Corrected path
-import EntryCard from "@/components/EntryCard"; // Corrected path
+import NewEntryCard from "@/components/NewEntryCard"; 
+import EntryCard from "@/components/EntryCard";
 import Link from "next/link";
 import Question from "@/components/Question";
 
@@ -26,18 +26,26 @@ const getEntries = async () => {
 const JournalPage = async () => {
   const entries = await getEntries();
   return (
-    <div className="p-10 bg-zinc-200/50 min-h-screen">
-      <h2 className="text-4xl font-bold mb-8 text-indigo-700">Journal</h2>
+    <div className="p-8 min-h-screen bg-gradient-to-r from-gray-50 via-blue-50 to-gray-200">
+      <h2 className="text-4xl font-bold mb-8 text-indigo-800 text-center">Journal</h2>
       <div className="my-8">
-        <Question/>
+        <Question />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <NewEntryCard />
-        {entries.map((entry) => (
-          <Link href={`/journal/${entry.id}`} key={entry.id}>
-            <EntryCard entry={entry} />
-          </Link>
-        ))}
+        {entries.length > 0 ? (
+          entries.map((entry) => (
+            <Link href={`/journal/${entry.id}`} key={entry.id}>
+              
+                <EntryCard entry={entry} />
+            
+            </Link>
+          ))
+        ) : (
+          <div className="col-span-1 md:col-span-2 lg:col-span-3 text-center text-gray-600">
+            <p className="text-xl">No entries found. Start by creating a new entry!</p>
+          </div>
+        )}
       </div>
     </div>
   );
