@@ -69,29 +69,36 @@ export const qa = async (
     question: string, 
     entries: Array<{ content: string, id: string, createdAt: Date }>
 ): Promise<any> => {
-    const docs = entries.map((entry) => ({
-        pageContent: entry.content,
-        metadata: {
-            id: entry.id,
-            createdAt: entry.createdAt,
-        },
-    }));
+    try {
+        const docs = entries.map((entry) => ({
+            pageContent: entry.content,
+            metadata: {
+                id: entry.id,
+                createdAt: entry.createdAt,
+            },
+        }));
 
-    const model = new ChatOpenAI({
-        temperature: 0,
-        modelName: 'gpt-3.5-turbo',
-        apiKey: process.env.OPENAI_API_KEY,
-    });
+        const model = new ChatOpenAI({
+            temperature: 0,
+            modelName: 'gpt-3.5-turbo',
+            apiKey: process.env.OPENAI_API_KEY!,
+        });
 
-    const chain = loadQARefineChain(model);
-    const embeddings = new OpenAIEmbeddings();
-    const store = await MemoryVectorStore.fromDocuments(docs, embeddings);
-    const relevantDocs = await store.similaritySearch(question);
+        const chain = loadQARefineChain(model);
+        const embeddings = new OpenAIEmbeddings();
+        const store = await MemoryVectorStore.fromDocuments(docs, embeddings);
+        const relevantDocs = await store.similaritySearch(question);
 
-    const res = await chain.invoke({
-        input_documents: relevantDocs,
-        question,
-    });
+        console.log("Relevant Documents:", relevantDocs); // Add this to debug
 
-    return res;
+        const res = await chain.invoke({
+            input_documents: relevantDocs,
+            question,
+        });
+
+        return res;
+    } catch (error) {
+        console.error("Error in QA function:", error);
+        throw error; // Rethrow to be caught in the calling function
+    }
 };

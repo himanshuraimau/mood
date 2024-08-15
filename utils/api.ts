@@ -38,16 +38,26 @@ export const createNewEntry = async ()=>{
 }
     
 
-export const askQuestion = async (question:any)=>{
-    const res = await fetch(
-        new Request(createURL("/api/question"),{
-            method: "POST",
-            body: JSON.stringify({question}),
-        })
-    )
-    if (res.ok){
+export const askQuestion = async (question: string) => {
+    try {
+        const res = await fetch(
+            new Request(createURL("/api/question"), {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ question }),
+            })
+        );
+
+        if (!res.ok) {
+            throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+
         const data = await res.json();
-        return data.data;
+        return data.data; // Make sure this matches your API response
+    } catch (error) {
+        console.error("Error in askQuestion:", error);
+        return { output_text: "An error occurred. Please try again." };
     }
-    return null;
-}
+};

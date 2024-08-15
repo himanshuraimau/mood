@@ -12,10 +12,10 @@ export const POST = async () => {
       return NextResponse.json({ error: "User not found." }, { status: 404 });
     }
     
-    // Replace with actual content if available
-    const entryContent = "Write your content here"; // This should be dynamic content
+
+    const entryContent = "Write your content here"; 
     
-    // Create the journal entry
+
     const entry = await prisma.journalEntry.create({
       data: {
         userId: user.id,
@@ -23,10 +23,10 @@ export const POST = async () => {
       },
     });
 
-    // Analyze the journal entry content
+    
     const analysisString = await analyze(entry.content);
 
-    // Assuming analyze returns a JSON string, parse it
+ 
     let analysis;
     try {
       analysis = typeof analysisString === "string" ? JSON.parse(analysisString) : analysisString;
