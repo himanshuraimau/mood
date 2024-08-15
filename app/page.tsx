@@ -9,7 +9,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="w-screen h-screen bg-gradient-to-br from-blue-700 via-blue-700 to-blue-500 flex flex-col justify-center items-center text-white">
+    <div className="w-screen h-screen bg-gradient-to-br from-blue-400 via-blue-300 to-blue-900 flex flex-col justify-center items-center text-white">
       <div className="w-full max-w-[600px] mx-auto text-center p-6 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm">
         <h1 className="text-4xl font-bold mb-4 animate-fadeIn">
           Mood: Your Personal Journal

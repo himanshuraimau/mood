@@ -89,13 +89,13 @@ export const qa = async (
         const store = await MemoryVectorStore.fromDocuments(docs, embeddings);
         const relevantDocs = await store.similaritySearch(question);
 
-        console.log("Relevant Documents:", relevantDocs); // Add this to debug
+        
 
         const res = await chain.invoke({
             input_documents: relevantDocs,
             question,
         });
-
+        console.log(question,res)
         return res;
     } catch (error) {
         console.error("Error in QA function:", error);
