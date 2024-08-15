@@ -52,7 +52,7 @@ export const PATCH = async (request: Request, { params }: { params: any }) => {
         subject: analysisData.subject || "",
         negative: analysisData.negative || false,
         color: analysisData.color || "#000000",
-        sentimentScore: analysisData.sentimentScore || 0,
+        sentimentScore: String(analysisData.sentimentScore || '0'),
       },
       create: {
         userId: user.id,
@@ -62,7 +62,7 @@ export const PATCH = async (request: Request, { params }: { params: any }) => {
         subject: analysisData.subject || "",
         negative: analysisData.negative || false,
         color: analysisData.color || "#000000",
-        sentimentScore: analysisData.sentimentScore || 0,
+        sentimentScore: String(analysisData.sentimentScore || '0'),
       },
       include: {
         entry: true,
