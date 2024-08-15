@@ -5,24 +5,37 @@ import { revalidatePath } from "next/cache";
 import { analyze } from "@/utils/ai";
 
 export const POST = async () => {
-  const user = await getUserByClerkId();
-  
-  // Replace with actual content if available
-  const entryContent = "Write your content here";
-
-  const entry = await prisma.journalEntry.create({
-    data: {
-      userId: user.id,
-      content: entryContent,
-    },
-  });
-
-  // Analyze the journal entry content
-  const analysisString = await analyze(entry.content);
-
   try {
-    const analysis = analysisString;
+    const user = await getUserByClerkId();
+    
+    if (!user) {
+      return NextResponse.json({ error: "User not found." }, { status: 404 });
+    }
+    
+    // Replace with actual content if available
+    const entryContent = "Write your content here"; // This should be dynamic content
+    
+    // Create the journal entry
+    const entry = await prisma.journalEntry.create({
+      data: {
+        userId: user.id,
+        content: entryContent,
+      },
+    });
 
+    // Analyze the journal entry content
+    const analysisString = await analyze(entry.content);
+
+    // Assuming analyze returns a JSON string, parse it
+    let analysis;
+    try {
+      analysis = typeof analysisString === "string" ? JSON.parse(analysisString) : analysisString;
+    } catch (error) {
+      console.error("Failed to parse analysis result:", error);
+      throw new Error("Invalid JSON format in analysis result.");
+    }
+
+    // Save the analysis to the database
     await prisma.analysis.create({
       data: {
         userId: user.id,
@@ -31,17 +44,19 @@ export const POST = async () => {
         summary: analysis.summary || "",
         subject: analysis.subject || "",
         negative: analysis.negative || false,
-        color: analysis.color || "#000000", 
-        sentimentScore: analysis.sentimentScore,
+        color: analysis.color || "#ffcc00",
+        sentimentScore: String(analysis.sentimentScore),
       },
     });
-  } catch (error) {
-    console.error("Failed to parse analysis result:", error);
-    throw new Error("Invalid JSON format in analysis result.");
-  }
 
-  revalidatePath('/journal');
-  return NextResponse.json({
-    data: entry,
-  });
+    // Revalidate the journal page cache
+    revalidatePath('/journal');
+
+    // Return the created entry as a JSON response
+    return NextResponse.json({ data: entry });
+
+  } catch (error) {
+    console.error("Error processing the POST request:", error);
+    return NextResponse.json({ error: "An error occurred while processing your request." }, { status: 500 });
+  }
 };

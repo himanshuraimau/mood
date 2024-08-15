@@ -65,12 +65,10 @@ export const PATCH = async (request: Request, { params }: { params: any }) => {
         sentimentScore: analysisData.sentimentScore || 0,
       },
       include: {
-        entry: true, // Include related journal entry data if needed
+        entry: true,
       },
     });
-    
 
-    // Return the updated journal entry and analysis as JSON
     return NextResponse.json({
       data: {
         entry: updatedEntry,
