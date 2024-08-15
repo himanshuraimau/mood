@@ -58,37 +58,34 @@ const Editor: React.FC<EditorProps> = ({ entry }) => {
   });
 
   return (
-    <div className="w-full h-full relative grid grid-cols-3">
-      <div className="col-span-2">
+    <div className="w-full h-full relative grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
+      <div className="col-span-2 bg-white rounded-lg shadow-lg overflow-hidden relative">
         {isLoaded && (
-          <div className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-50 flex items-center justify-center z-10">
-            <div className="p-4 bg-white border border-gray-200 rounded-lg">
-              <div className="text-lg font-semibold">Saving...</div>
+          <div className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-70 flex items-center justify-center z-10">
+            <div className="p-6 bg-blue-400 text-gray-900 rounded-lg shadow-lg">
+              <div className="text-xl font-semibold">Saving...</div>
             </div>
           </div>
         )}
-        {!isLoaded && (
-          <textarea
-            className="w-full h-full p-8 text-xl outline-none"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
-        )}
+        <textarea
+          className="w-full h-full p-6 text-lg border-none outline-none resize-none"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder="Write your journal entry here..."
+        />
       </div>
-      <div className="border-l border-black/10">
-        <div className="px-6 py-10" style={{ backgroundColor: color }}>
-          <h2 className="text-2xl">Analytics</h2>
+      <div className="bg-white rounded-lg shadow-lg border border-gray-200">
+        <div className="px-6 py-4" style={{ backgroundColor: color }}>
+          <h2 className="text-xl font-semibold text-white">Analytics</h2>
         </div>
-        <div>
-          <ul>
-            {analysisData.map((item) => (
-              <li key={item.name} className="px-2 py-4 flex items-center justify-between border-b border-t border-black/10">
-                <span className="text-lg font-semibold">{item.name}</span>
-                <span>{item.value}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <ul className="divide-y divide-gray-200">
+          {analysisData.map((item) => (
+            <li key={item.name} className="px-4 py-3 flex items-center justify-between">
+              <span className="text-sm font-medium text-gray-700">{item.name}</span>
+              <span className="text-sm text-gray-500">{item.value}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
