@@ -13,19 +13,24 @@ const NewEntryCard = () => {
 
   return (
     <div
-      className="cursor-pointer overflow-hidden rounded-lg bg-white shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg hover:bg-gray-50"
+      className="card cursor-pointer bg-gradient-to-br from-teal-500 to-teal-600 text-white group"
       onClick={handleClick}
     >
-      <div className="px-4 py-5 sm:p-6 flex items-center space-x-3">
-        <FaRegEdit className="text-blue-600 text-3xl" />
-        <div className="text-center">
-          <span className="block text-2xl font-semibold text-gray-800 mb-1">
-            New Entry
-          </span>
-          <span className="block text-sm text-gray-600">
-            Click to create a new journal entry
-          </span>
+      <div className="px-6 py-8 flex flex-col items-center text-center">
+        <div className="mb-4 p-3 bg-white/20 rounded-full group-hover:bg-white/30 transition-colors duration-300">
+          <FaRegEdit className="text-4xl" />
         </div>
+        <div>
+          <h3 className="text-2xl font-semibold mb-2">
+            New Entry
+          </h3>
+          <p className="text-teal-100">
+            Start writing your thoughts...
+          </p>
+        </div>
+      </div>
+      <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <span className="text-teal-100">Create →</span>
       </div>
     </div>
   );
